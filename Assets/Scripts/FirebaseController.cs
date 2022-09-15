@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using Firebase.Database;
 using Firebase.Auth;
+using IzanamiWorkshop.Firebase.Utils;
+using IzanamiWorkshop.Firebase.Models;
+using System.Text.RegularExpressions;
 
 namespace IzanamiWorkshop.Firebase.Core
 {
@@ -55,17 +58,19 @@ namespace IzanamiWorkshop.Firebase.Core
             firebaseAuth = FirebaseAuth.DefaultInstance;
         }
 
-        public void CreateAccountWithEmail(string email, string password, string displayName, Action callback = null)
+        public void CreateAccountWithEmail(string email, string password, string displayName, Action<bool> callback = null)
         {
             firebaseAuth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
                 if (task.IsCanceled)
                 {
                     Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                    callback?.Invoke(false);
                     return;
                 }
                 if (task.IsFaulted)
                 {
                     Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                    callback?.Invoke(false);
                     return;
                 }
 
@@ -75,7 +80,7 @@ namespace IzanamiWorkshop.Firebase.Core
             });
         }
 
-        private void UpdateDisplayName(string displayName, Action callback = null)
+        private void UpdateDisplayName(string displayName, Action<bool> callback = null)
         {
             FirebaseUser user = firebaseAuth.CurrentUser;
             if (user != null)
@@ -97,26 +102,28 @@ namespace IzanamiWorkshop.Firebase.Core
                     }
                     
                     Debug.Log("User profile updated successfully.");
-                    callback?.Invoke();
+                    callback?.Invoke(true);
                 });
             }
         }
 
-        public void SignInAccountWithEmail(string email, string password, Action callback = null)
+        public void SignInAccountWithEmail(string email, string password, Action<bool> callback = null)
         {
             firebaseAuth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
                 if (task.IsCanceled)
                 {
                     Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                    callback?.Invoke(false);
                     return;
                 }
                 if (task.IsFaulted)
                 {
                     Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                    callback?.Invoke(false);
                     return;
                 }
 
-                callback?.Invoke();
+                callback?.Invoke(true);
             });
         }
 
@@ -161,7 +168,7 @@ namespace IzanamiWorkshop.Firebase.Core
             firebaseDatabase = FirebaseDatabase.DefaultInstance;
         }
 
-        //Sets or updates a Value.
+        //Sets or updates a Value, we just use it to update last logged in user data in database, just an example.
         public void SetValueAsJson(string dbName, string json, Action<bool> callback = null)
         {
             firebaseDatabase.GetReference(dbName).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
@@ -193,7 +200,7 @@ namespace IzanamiWorkshop.Firebase.Core
         }
 
         //used to update or set values, we pass dictionary, with keys being path specific (parent/child) and value the data to be set
-        public void PushNewData(IDictionary<string, object> toUpdateData, Action<bool> callback = null)
+        public void PushItemData(IDictionary<string, object> toUpdateData, Action<bool> callback = null)
         {
             firebaseDatabase.RootReference.UpdateChildrenAsync(toUpdateData).ContinueWithOnMainThread(task =>
             {
@@ -201,6 +208,38 @@ namespace IzanamiWorkshop.Firebase.Core
                 {
                     Debug.Log("Json Submitted to Database, Status Completed: " + task.IsCompleted);
                     callback(task.IsCompleted);
+                }
+            });
+        }
+
+        //Get list of item datas that user has created
+        public void GetItemData(string dbName, Action<Dictionary<string,ItemData>> callback = null)
+        {
+            FirebaseDatabase.DefaultInstance.GetReference(dbName).GetValueAsync().ContinueWithOnMainThread(task => {
+                if (task.IsFaulted)
+                {
+                    // Handle the error...
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    object rawData = snapshot.GetValue(true);
+                    Dictionary<string, ItemData> itemDatas = FirebaseUtil.ConvertDictionaryToItemData(rawData);
+                    callback?.Invoke(itemDatas);
+                }
+            });
+        }
+
+        public void DeleteItemData(string dbName, Action callback = null)
+        {
+            FirebaseDatabase.DefaultInstance.GetReference(dbName).RemoveValueAsync().ContinueWithOnMainThread(task => {
+                if (task.IsFaulted)
+                {
+                    // Handle the error...
+                }
+                else if (task.IsCompleted)
+                {
+                    callback?.Invoke();
                 }
             });
         }

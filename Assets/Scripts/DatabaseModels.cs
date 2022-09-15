@@ -11,7 +11,7 @@ namespace IzanamiWorkshop.Firebase.Models
     public struct ItemData
     {
         public string Name;
-        public string Data;
+        public string Damage;
         public string CreatorName;
         public string CreatorID;
     }
