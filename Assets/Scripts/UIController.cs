@@ -119,6 +119,13 @@ namespace IzanamiWorkshop.Firebase.GameComponents
             });
         }
 
+        public void HandleDownloadBundle()
+        {
+            //get the download link for prefabs bundle from firebase and use unitywebrequest to download, on success this will instantiate a cube
+            //in the scene
+            FirebaseController.Instance.GetDownloadURLForBundle("prefabs",(url)=> AssetBundleController.Instance.DownloadAssetsFromFirebase(url));    
+        }
+
         private void HandleFirebaseInitialization()
         {
             initPanel.SetActive(false);

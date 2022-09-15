@@ -153,7 +153,6 @@ namespace IzanamiWorkshop.Firebase.Core
                 // ... now download the file via WWW or UnityWebRequest.
                 Debug.Log("Download URL: " + task.Result.AbsoluteUri);
                     callback(task.Result.AbsoluteUri);
-                //LoadAsset.Instance.DownloadAssetsFromFirebase(task.Result.AbsoluteUri);
             }
             });
         }

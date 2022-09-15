@@ -8,16 +8,23 @@ namespace IzanamiWorkshop.Firebase.GameComponents
 {
 	public class AssetBundleController : MonoBehaviour
 	{
+		public static AssetBundleController Instance;
+
 		[SerializeField] private bool clearCache;
 
-		// Start is called before the first frame update
-		void Start()
+        private void Awake()
+        {
+			Instance = this;
+		}
+
+        // Start is called before the first frame update
+        void Start()
 		{
 			if (clearCache)
 				Caching.ClearCache();
 		}
 
-		private void DownloadAssetsFromFirebase(string url)
+		public void DownloadAssetsFromFirebase(string url)
 		{
 			StopCoroutine(IDownloadAssetsFromFirebase(url));
 			StartCoroutine(IDownloadAssetsFromFirebase(url));
@@ -36,6 +43,7 @@ namespace IzanamiWorkshop.Firebase.GameComponents
 				else
 				{
 					// Get downloaded asset bundle
+					Debug.Log("Bundle Download Success");
 					AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
 					HandleSuccess(bundle);
 				}
@@ -60,8 +68,10 @@ namespace IzanamiWorkshop.Firebase.GameComponents
 
 		private void HandleSuccess(AssetBundle assetBundle)
 		{
+			//we just want to load cube prefab from bundle and instantiate.
 			GameObject go = assetBundle.LoadAsset("Cube") as GameObject;
 			Instantiate(go);
+			Debug.Log("Instanted  Cube");
 
 			//unload bundle if there is no more reference to be used from
 			assetBundle.Unload(false);
