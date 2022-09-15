@@ -64,7 +64,7 @@ Thats it!.
 ### Open the project in unity
 - You will get this error, just click on **Ignore**.
 
-![error](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/master/ReadMeImages/Firebase1.JPG?raw=true)
+![error](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase1.JPG?raw=true)
 
 - Just Opening this project will throw loads of Error!!, but dont worry all these errors are basically due to missing firebase-unity-sdk
 - download the sdk from above link and unzip, them **we basically need only 3 packages from dotnet4 folder**.
@@ -75,15 +75,15 @@ Thats it!.
   Once you are done, clear the console, atleast now there shouldn't be any errors.
 - Make sure the scripting order, is intact, as its intended by me, i am making sure firebasecontroller is loaded first, you can change this any case as you wish.
 
-![scripting order](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/master/ReadMeImages/Firebase2.JPG?raw=true)
+![scripting order](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase2.JPG?raw=true)
 
 - Open SampleScene, click on **LoadAssetBundle** Gameobject, make sure the scrip it is referenced, if not just add the missing script, this fix Load bundle issue.
 
-![loadbundle](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/master/ReadMeImages/Firebase3.JPG?raw=true)
+![loadbundle](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase3.JPG?raw=true)
 
 - Download the ```google-services.json``` which you can find under project settings of your firebase console and put it under ```StreamingAssets``` folder in unity.
 
-![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/master/ReadMeImages/Firebase4.JPG?raw=true)
+![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase4.JPG?raw=true)
 
 - In order to use firebase database service, we need to make one more small change, open the downloadeded ```google-services.json``` and add ```"firebase-url"``` under
 ```"project-info"``` and save, close, **dont edit other details as it will be already updated**.
@@ -96,8 +96,8 @@ Thats it!.
   },
 ```
 
-![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/master/ReadMeImages/Firebase5.JPG?raw=true)
+![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase5.JPG?raw=true)
 
-![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/master/ReadMeImages/Firebase6.JPG?raw=true)
+![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase6.JPG?raw=true)
 
 DONE!!!!! this was just the setup, try the game, read through the code, and explore yourself to understand things, **there is no better teacher than yourself!**.
