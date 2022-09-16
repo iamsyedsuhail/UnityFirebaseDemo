@@ -101,3 +101,8 @@ Thats it!.
 ![streamingassets](https://github.com/iamsyedsuhail/UnityFirebaseDemo/blob/develop/ReadMeImages/Firebase6.JPG?raw=true)
 
 DONE!!!!! this was just the setup, try the game, read through the code, and explore yourself to understand things, **there is no better teacher than yourself!**.
+
+## More
+- Learn more about creating asset bundles, from my [UnityAssetBundle](https://github.com/iamsyedsuhail/UnityAssetBundle) Repo.
+- Read more about firebase, check out their [documentation for unity](https://firebase.google.com/docs/build).
+
